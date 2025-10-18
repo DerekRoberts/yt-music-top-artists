@@ -73,7 +73,7 @@ jobs:
           cp public/artists.json dist/
           echo "📦 React app built with latest artists data"
 
-      - name: Upload PR Preview
+      - name: Upload PR Preview Artifact
         if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v4
         with:
@@ -89,7 +89,7 @@ jobs:
           echo "📦 React app built successfully (deployment skipped for PR)"
           echo "📁 Preview available in workflow artifacts (pr-preview-${{ github.run_number }})"
 
-      - name: Upload artifact
+      - name: Upload GitHub Pages Artifact
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
