@@ -127,7 +127,7 @@ function getAuthHeaders() {
 }
 
 // Main execution
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[ 1 ]}`) {
   fetchYouTubeMusicData()
     .then(() => {
       console.log('🎉 Successfully fetched and saved artists data!');
