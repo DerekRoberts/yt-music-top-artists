@@ -97,8 +97,4 @@ jobs:
         run: |
           echo "🚀 Successfully deployed to GitHub Pages!"
           echo "📱 Site URL: ${{ steps.deployment.outputs.page_url }}"
-          if [[ "${{ needs.build-and-deploy.outputs.data_updated }}" == "true" ]]; then
-            echo "🎵 Artists data was updated in this deployment"
-          else
-            echo "📋 Used existing artists data for deployment"
-          fi
+          echo "🎵 Artists data was fetched and deployed"
