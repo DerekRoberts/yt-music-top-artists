@@ -1,12 +1,8 @@
 name: Build and Deploy to GitHub Pages
 
 on:
-  # Regular deployments (every push to main)
-  push:
-    branches: [main]
-  # Manual triggering
+  pull_request:
   workflow_dispatch:
-  # Scheduled data updates (every 6 hours)
   schedule:
     - cron: "0 */6 * * *"
 
