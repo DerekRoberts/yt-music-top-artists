@@ -73,14 +73,6 @@ jobs:
           cp public/artists.json dist/
           echo "📦 React app built with latest artists data"
 
-      - name: Upload PR Preview Artifact
-        if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v4
-        with:
-          name: pr-preview-${{ github.run_number }}
-          path: ./dist
-          retention-days: 30
-
       - name: PR Summary
         if: github.event_name == 'pull_request'
         run: |
@@ -88,6 +80,14 @@ jobs:
           echo "🎵 Artists data was fetched and built"
           echo "📦 React app built successfully (deployment skipped for PR)"
           echo "📁 Preview available in workflow artifacts (pr-preview-${{ github.run_number }})"
+
+      - name: Upload PR Preview Artifact
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-preview-${{ github.run_number }}
+          path: ./dist
+          retention-days: 30
 
       - name: Upload GitHub Pages Artifact
         if: github.event_name != 'pull_request'
