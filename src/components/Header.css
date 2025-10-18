@@ -20,25 +20,19 @@
   font-weight: 600;
 }
 
-.auth-section {
+.action-section {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.last-updated-header {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin: 0.25rem 0 0 0;
 }
 
-.user-status {
-  font-size: 0.9rem;
-  opacity: 0.9;
-}
-
-.login-button,
-.logout-button {
+.refresh-header-button {
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
@@ -49,10 +43,14 @@
   transition: all 0.2s ease;
 }
 
-.login-button:hover,
-.logout-button:hover {
+.refresh-header-button:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.3);
   border-color: rgba(255, 255, 255, 0.5);
+}
+
+.refresh-header-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 @media (max-width: 768px) {
@@ -66,4 +64,3 @@
     font-size: 1.5rem;
   }
 }
-

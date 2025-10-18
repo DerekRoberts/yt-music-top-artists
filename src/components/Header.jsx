@@ -1,26 +1,27 @@
+import { formatLastUpdated } from '../services/artistData'
 import './Header.css'
 
-function Header({ user, onLogin, onLogout }) {
+function Header({ onRefresh, loading, lastUpdated }) {
   return (
     <header className="header">
       <div className="header-content">
         <div className="logo-section">
           <h1>🎵 YouTube Music Artists</h1>
+          {lastUpdated && (
+            <p className="last-updated-header">
+              Last updated: {formatLastUpdated(lastUpdated)}
+            </p>
+          )}
         </div>
 
-        <div className="auth-section">
-          {user ? (
-            <div className="user-info">
-              <span className="user-status">Signed in</span>
-              <button onClick={onLogout} className="logout-button">
-                Sign Out
-              </button>
-            </div>
-          ) : (
-            <button onClick={onLogin} className="login-button">
-              Sign In
-            </button>
-          )}
+        <div className="action-section">
+          <button
+            onClick={onRefresh}
+            disabled={loading}
+            className="refresh-header-button"
+          >
+            {loading ? 'Refreshing...' : 'Refresh Data'}
+          </button>
         </div>
       </div>
     </header>
