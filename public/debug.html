@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Test</title>
+</head>
+<body>
+    <h1>Debug Test</h1>
+    <div id="test">Loading...</div>
+    <script>
+        console.log('Debug script running');
+        document.getElementById('test').innerHTML = 'Script executed successfully';
+        
+        // Test if we can fetch the data
+        fetch('/youtube-music-artists/artists.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Data fetched successfully:', data);
+                document.getElementById('test').innerHTML = 'Data loaded: ' + data.artists.length + ' artists';
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                document.getElementById('test').innerHTML = 'Error: ' + error.message;
+            });
+    </script>
+</body>
+</html>
