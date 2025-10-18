@@ -44,6 +44,7 @@ jobs:
           # YTMUSIC_PASSWORD: ${{ secrets.YTMUSIC_PASSWORD }}
           # Or OAuth credentials
           # YTMUSIC_OAUTH_TOKEN: ${{ secrets.YTMUSIC_OAUTH_TOKEN }}
+          NODE_ENV: production
 
       - name: Check for changes
         id: verify-changed-files
