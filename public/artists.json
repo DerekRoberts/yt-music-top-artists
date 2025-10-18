@@ -23,25 +23,11 @@
       "description": "Your third most played artist",
       "playCount": 28,
       "lastPlayed": "2024-01-13T20:15:00Z"
-    },
-    {
-      "id": "artist4",
-      "name": "Example Artist 4",
-      "image": "https://via.placeholder.com/300x300?text=Artist+4",
-      "description": "A fourth artist in your top list",
-      "playCount": 22,
-      "lastPlayed": "2024-01-12T14:20:00Z"
-    },
-    {
-      "id": "artist5",
-      "name": "Example Artist 5",
-      "image": "https://via.placeholder.com/300x300?text=Artist+5",
-      "description": "Rounding out your top five",
-      "playCount": 18,
-      "lastPlayed": "2024-01-11T09:30:00Z"
     }
   ],
-  "lastUpdated": "2024-01-15T12:00:00Z",
-  "totalArtists": 5,
-  "source": "YouTube Music API"
+  "lastUpdated": "2025-10-18T21:43:58.931Z",
+  "totalArtists": 3,
+  "source": "YouTube Music API",
+  "fetchTimestamp": 1760823838931,
+  "buildId": "18621360531"
 }

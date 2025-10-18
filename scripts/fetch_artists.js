@@ -7,8 +7,12 @@
  * and generates a JSON file for the React frontend to consume.
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Note: youtubei.js is not available in npm, so we'll use a mock implementation
 // In a real scenario, you would need to use an unofficial YouTube Music API library
@@ -55,12 +59,14 @@ async function fetchYouTubeMusicData() {
 
     console.log(`✅ Found ${mockArtists.length} artists`);
 
-    // Add metadata
+    // Add metadata with current timestamp
     const data = {
       artists: mockArtists,
       lastUpdated: new Date().toISOString(),
       totalArtists: mockArtists.length,
-      source: "YouTube Music API"
+      source: "YouTube Music API",
+      fetchTimestamp: Date.now(),
+      buildId: process.env.GITHUB_RUN_ID || 'local'
     };
 
     // Ensure public directory exists
@@ -121,7 +127,7 @@ function getAuthHeaders() {
 }
 
 // Main execution
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[ 1 ]}`) {
   fetchYouTubeMusicData()
     .then(() => {
       console.log('🎉 Successfully fetched and saved artists data!');
@@ -133,4 +139,4 @@ if (require.main === module) {
     });
 }
 
-module.exports = { fetchYouTubeMusicData, processHistoryData };
+export { fetchYouTubeMusicData, processHistoryData };
