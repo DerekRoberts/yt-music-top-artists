@@ -14,7 +14,7 @@ export async function fetchArtistsData() {
 
     // Fetch from the public directory (same domain as the app)
     // Add cache-busting to ensure fresh data
-    const response = await fetch('/artists.json', { cache: 'no-cache' });
+    const response = await fetch('/youtube-music-artists/artists.json', { cache: 'no-cache' });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch artists data: ${response.status} ${response.statusText}`);
