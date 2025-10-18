@@ -1,4 +1,4 @@
-name: Unified Build and Deploy
+name: Build and Deploy to GitHub Pages
 
 on:
   # Regular deployments (every push to main)
