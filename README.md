@@ -1,10 +1,10 @@
 # YouTube Music Artists
 
-A React web application that displays your top artists from YouTube Music using the YouTube Data API.
+A React web application that displays your top artists from YouTube Music using scheduled data updates.
 
 ## 🚀 Live Demo
 
-Visit the live application at: [https://yourusername.github.io/youtube-music-artists/](https://yourusername.github.io/youtube-music-artists/)
+Visit the live application at: [https://derekroberts.github.io/yt-music-top-artists/](https://derekroberts.github.io/yt-music-top-artists/)
 
 ## ✨ Features
 
@@ -28,7 +28,7 @@ Visit the live application at: [https://yourusername.github.io/youtube-music-art
    - Choose "Web application"
    - Add authorized redirect URIs:
      - For local development: `http://localhost:5173`
-     - For production: `https://yourusername.github.io/youtube-music-artists/`
+     - For production: `https://derekroberts.github.io/yt-music-top-artists/`
 5. Copy your **Client ID**
 
 ### 2. Environment Configuration
@@ -57,8 +57,8 @@ For automatic deployment to GitHub Pages:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/youtube-music-artists.git
-   cd youtube-music-artists
+   git clone git@github.com:DerekRoberts/yt-music-top-artists.git
+   cd yt-music-top-artists
    ```
 
 2. Install dependencies:
@@ -143,7 +143,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 2. **OAuth redirect URI mismatch**
    - Check that your redirect URIs in Google Cloud Console match your deployment URL
-   - For GitHub Pages: `https://yourusername.github.io/youtube-music-artists/`
+   - For GitHub Pages: `https://derekroberts.github.io/yt-music-top-artists/`
 
 3. **"Access denied" error**
    - Ensure the YouTube Data API v3 is enabled in Google Cloud Console
