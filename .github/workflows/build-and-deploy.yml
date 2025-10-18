@@ -73,12 +73,21 @@ jobs:
           cp public/artists.json dist/
           echo "📦 React app built with latest artists data"
 
+      - name: PR Summary
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "✅ PR workflow completed successfully!"
+          echo "🎵 Artists data was fetched and built"
+          echo "📦 React app built successfully (deployment skipped for PR)"
+
       - name: Upload artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: "./dist"
 
   deploy:
+    if: github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
