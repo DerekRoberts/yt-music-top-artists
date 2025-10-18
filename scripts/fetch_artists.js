@@ -69,14 +69,14 @@ async function fetchYouTubeMusicData() {
       buildId: process.env.GITHUB_RUN_ID || 'local'
     };
 
-    // Ensure public directory exists
-    const publicDir = path.join(__dirname, '..', 'public');
-    if (!fs.existsSync(publicDir)) {
-      fs.mkdirSync(publicDir, { recursive: true });
+    // Ensure dist directory exists (for build output)
+    const distDir = path.join(__dirname, '..', 'dist');
+    if (!fs.existsSync(distDir)) {
+      fs.mkdirSync(distDir, { recursive: true });
     }
 
-    // Write the JSON file
-    const outputPath = path.join(publicDir, 'artists.json');
+    // Write the JSON file directly to dist for deployment
+    const outputPath = path.join(distDir, 'artists.json');
     fs.writeFileSync(outputPath, JSON.stringify(data, null, 2));
 
     console.log(`📁 Artists data written to: ${outputPath}`);

@@ -49,20 +49,10 @@ jobs:
           # YTMUSIC_OAUTH_TOKEN: ${{ secrets.YTMUSIC_OAUTH_TOKEN }}
           NODE_ENV: production
 
-      - name: Generate artists data
-        run: |
-          if [ -n "$(git status --porcelain public/artists.json)" ]; then
-            echo "✅ Artists data updated"
-          else
-            echo "ℹ️ No changes detected in artists data"
-          fi
-
       - name: Build React application
         run: |
           npm run build
-          # Ensure artists.json is in dist for deployment
-          cp public/artists.json dist/
-          echo "📦 React app built with latest artists data"
+          echo "📦 React app built with fresh artists data"
 
       - name: PR Summary
         if: github.event_name == 'pull_request'
