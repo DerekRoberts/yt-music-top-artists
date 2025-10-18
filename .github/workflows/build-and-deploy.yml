@@ -41,21 +41,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Check if data update is needed
-        id: check-data-update
-        run: |
-          # Always fetch new data for scheduled runs and manual triggers
-          if [[ "${{ github.event_name }}" == "schedule" ]] || [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            echo "data_update=true" >> $GITHUB_OUTPUT
-            echo "🔄 Data update triggered by: ${{ github.event_name }}"
-          else
-            # For push events, use existing data (no update needed)
-            echo "data_update=false" >> $GITHUB_OUTPUT
-            echo "ℹ️ Using existing artists data for deployment"
-          fi
-
       - name: Fetch artists data
-        if: steps.check-data-update.outputs.data_update == 'true'
         run: |
           cd scripts
           node fetch_artists.js
@@ -68,7 +54,6 @@ jobs:
           NODE_ENV: production
 
       - name: Commit data changes
-        if: steps.check-data-update.outputs.data_update == 'true'
         run: |
           if [ -n "$(git status --porcelain public/artists.json)" ]; then
             git config --local user.email "action@github.com"
