@@ -1,124 +1,109 @@
-import { useState, useEffect } from 'react'
-import { GoogleOAuthProvider, GoogleLogin, useGoogleLogin } from '@react-oauth/google'
-import { youtubeMusicService } from './services/youtubeMusic'
+import { useState, useEffect, useCallback } from 'react'
+import { fetchArtistsData, formatLastUpdated, getArtistsStats } from './services/artistData'
 import ArtistGrid from './components/ArtistGrid'
 import Header from './components/Header'
 import './App.css'
 
-function AppContent() {
-  const [ user, setUser ] = useState(null)
-  const [ artists, setArtists ] = useState([])
-  const [ loading, setLoading ] = useState(false)
+function App() {
+  const [ artistsData, setArtistsData ] = useState(null)
+  const [ loading, setLoading ] = useState(true)
   const [ error, setError ] = useState(null)
 
-  const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      setUser(tokenResponse)
-      setError(null)
-    },
-    onError: (error) => {
-      console.error('Login Failed:', error)
-      setError('Login failed. Please try again.')
-    },
-    scope: 'https://www.googleapis.com/auth/youtube.readonly'
-  })
-
-  const logout = () => {
-    setUser(null)
-    setArtists([])
-  }
-
-  const fetchTopArtists = async () => {
-    if (!user?.access_token) return
-
+  const fetchArtists = useCallback(async () => {
     setLoading(true)
     setError(null)
 
     try {
-      const artistData = await youtubeMusicService.getTopArtists(user.access_token)
-      setArtists(artistData)
+      console.log('🔄 Fetching artists data...')
+      const data = await fetchArtistsData()
+      setArtistsData(data)
+
+      if (data.error) {
+        setError(data.error)
+      }
     } catch (err) {
       console.error('Error fetching artists:', err)
-      setError('Failed to fetch your top artists. Please try again.')
+      setError('Failed to fetch artists data. Please try again later.')
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
   useEffect(() => {
-    if (user?.access_token) {
-      fetchTopArtists()
-    }
-  }, [ user ])
+    fetchArtists()
+  }, [ fetchArtists ])
+
+  const stats = artistsData ? getArtistsStats(artistsData.artists) : null
 
   return (
     <div className="app">
-      <Header user={user} onLogin={login} onLogout={logout} />
+      <Header
+        onRefresh={fetchArtists}
+        loading={loading}
+        lastUpdated={artistsData?.lastUpdated}
+      />
 
       <main className="main-content">
-        {!user ? (
-          <div className="login-section">
-            <h2>Welcome to YouTube Music Artists</h2>
-            <p>Sign in with Google to view your top artists from YouTube Music</p>
-            <button onClick={login} className="login-button">
-              Sign in with Google
+        {loading ? (
+          <div className="loading-section">
+            <h2>Loading Your Top Artists...</h2>
+            <p>Fetching the latest data from YouTube Music</p>
+            <div className="loading-spinner"></div>
+          </div>
+        ) : error ? (
+          <div className="error-section">
+            <h2>Unable to Load Artists</h2>
+            <div className="error-message">
+              {error}
+            </div>
+            <button onClick={fetchArtists} className="retry-button">
+              Try Again
             </button>
           </div>
-        ) : (
+        ) : artistsData?.artists?.length > 0 ? (
           <div className="artists-section">
             <div className="section-header">
-              <h2>Your Top Artists</h2>
+              <div className="header-info">
+                <h2>Your Top Artists</h2>
+                {artistsData.lastUpdated && (
+                  <p className="last-updated">
+                    Last updated: {formatLastUpdated(artistsData.lastUpdated)}
+                  </p>
+                )}
+                {stats && (
+                  <p className="stats-info">
+                    {stats.totalArtists} artists • {stats.totalPlayCount} total plays
+                  </p>
+                )}
+              </div>
               <button
-                onClick={fetchTopArtists}
+                onClick={fetchArtists}
                 disabled={loading}
                 className="refresh-button"
               >
-                {loading ? 'Loading...' : 'Refresh'}
+                {loading ? 'Refreshing...' : 'Refresh Data'}
               </button>
             </div>
 
-            {error && (
-              <div className="error-message">
-                {error}
-              </div>
-            )}
-
-            {artists.length > 0 ? (
-              <ArtistGrid artists={artists} />
-            ) : !loading && (
-              <div className="no-artists">
-                <p>No artists found. This might be because:</p>
-                <ul>
-                  <li>You haven't used YouTube Music much yet</li>
-                  <li>Your listening history is private</li>
-                  <li>API access is limited</li>
-                </ul>
-              </div>
-            )}
+            <ArtistGrid artists={artistsData.artists} />
+          </div>
+        ) : (
+          <div className="no-artists">
+            <h2>No Artists Found</h2>
+            <p>We couldn't find any artists in your YouTube Music data.</p>
+            <p>This might be because:</p>
+            <ul>
+              <li>You haven't used YouTube Music much yet</li>
+              <li>Your listening history is private</li>
+              <li>The data is still being processed</li>
+            </ul>
+            <button onClick={fetchArtists} className="retry-button">
+              Check Again
+            </button>
           </div>
         )}
       </main>
     </div>
-  )
-}
-
-function App() {
-  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
-
-  if (!clientId) {
-    return (
-      <div className="error-message">
-        <h2>Configuration Error</h2>
-        <p>Please set up your Google OAuth Client ID in the environment variables.</p>
-        <p>See the README for setup instructions.</p>
-      </div>
-    )
-  }
-
-  return (
-    <GoogleOAuthProvider clientId={clientId}>
-      <AppContent />
-    </GoogleOAuthProvider>
   )
 }
 

@@ -1,6 +1,6 @@
 # YouTube Music Artists
 
-A React web application that displays your top artists from YouTube Music using scheduled data updates.
+A React web application that displays your top artists from YouTube Music using scheduled data updates via GitHub Actions.
 
 ## 🚀 Live Demo
 
@@ -8,14 +8,37 @@ Visit the live application at: [https://derekroberts.github.io/yt-music-top-arti
 
 ## ✨ Features
 
-- **Google OAuth Authentication** - Secure sign-in with your Google account
-- **Top Artists Display** - View your most subscribed channels (closest to "top artists" available via API)
+- **Scheduled Data Updates** - GitHub Actions automatically fetches your YouTube Music data every 6 hours
+- **Top Artists Display** - View your most listened artists with play counts and statistics
 - **Modern UI** - Clean, responsive design with smooth animations
 - **GitHub Pages Deployment** - Automatically deployed on every push to main branch
+- **No Authentication Required** - Data is pre-fetched and served as static JSON
+
+## 🏗️ Architecture
+
+This application uses a **scheduled data fetching** approach:
+
+```
+GitHub Actions (every 6 hours)
+  ↓ Runs Node.js script
+  ↓ Fetches YouTube Music data
+  ↓ Generates artists.json
+  ↓ Commits to repository
+  
+React Frontend (GitHub Pages)
+  ↓ Fetches static artists.json
+  ↓ Displays your top artists
+```
+
+### Benefits
+- **No authentication required** in the frontend
+- **Automatic updates** every 6 hours
+- **Free hosting** on GitHub Pages
+- **Simple deployment** with GitHub Actions
 
 ## 🛠️ Setup Instructions
 
-### 1. Google Cloud Console Setup
+### 1. YouTube Music Authentication Setup
 
 1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
 2. Create a new project or select an existing one
@@ -86,19 +109,27 @@ The built files will be in the `dist` directory.
 ## 📁 Project Structure
 
 ```
-src/
-├── components/
-│   ├── ArtistCard.jsx      # Individual artist display component
-│   ├── ArtistCard.css      # Artist card styling
-│   ├── ArtistGrid.jsx      # Grid layout for artists
-│   ├── ArtistGrid.css      # Grid styling
-│   ├── Header.jsx          # App header with auth
-│   └── Header.css          # Header styling
-├── services/
-│   └── youtubeMusic.js     # YouTube API integration
-├── App.jsx                 # Main application component
-├── App.css                 # Global styles
-└── main.jsx               # Application entry point
+├── scripts/
+│   └── fetch_artists.js    # Node.js script for fetching YouTube Music data
+├── .github/workflows/
+│   ├── deploy.yml          # GitHub Pages deployment
+│   └── fetch-artists.yml   # Scheduled data fetching workflow
+├── public/
+│   └── artists.json        # Generated artist data (updated by GitHub Actions)
+├── src/
+│   ├── components/
+│   │   ├── ArtistCard.jsx  # Individual artist display component
+│   │   ├── ArtistCard.css  # Artist card styling
+│   │   ├── ArtistGrid.jsx  # Grid layout for artists
+│   │   ├── ArtistGrid.css  # Grid styling
+│   │   ├── Header.jsx      # App header with refresh functionality
+│   │   └── Header.css      # Header styling
+│   ├── services/
+│   │   └── artistData.js   # Service for fetching static JSON data
+│   ├── App.jsx             # Main application component (simplified, no auth)
+│   ├── App.css             # Global styles
+│   └── main.jsx           # Application entry point
+└── README.md              # This file
 ```
 
 ## 🔧 API Limitations
