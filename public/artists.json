@@ -25,9 +25,9 @@
       "lastPlayed": "2024-01-13T20:15:00Z"
     }
   ],
-  "lastUpdated": "2025-10-18T21:11:56.361Z",
+  "lastUpdated": "2025-10-18T21:43:58.931Z",
   "totalArtists": 3,
   "source": "YouTube Music API",
-  "fetchTimestamp": 1760821916361,
-  "buildId": "local"
+  "fetchTimestamp": 1760823838931,
+  "buildId": "18621360531"
 }
