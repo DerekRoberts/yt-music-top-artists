@@ -31,7 +31,7 @@ function App() {
 
   useEffect(() => {
     fetchArtists()
-  }, [fetchArtists])
+  }, [ fetchArtists ])
 
   const stats = artistsData ? getArtistsStats(artistsData.artists) : null
 

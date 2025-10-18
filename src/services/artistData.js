@@ -49,7 +49,7 @@ export async function fetchArtistsData() {
 export function formatLastUpdated(isoString) {
   try {
     const date = new Date(isoString);
-    
+
     // Check for invalid date
     if (isNaN(date.getTime())) {
       console.error('Invalid date string provided:', isoString);
@@ -61,7 +61,7 @@ export function formatLastUpdated(isoString) {
     const diffMinutes = Math.floor(diffMs / (1000 * 60));
     const diffHours = Math.floor(diffMinutes / 60);
     const diffDays = Math.floor(diffHours / 24);
-    
+
     if (diffMinutes < 1) {
       return 'Just now';
     } else if (diffHours < 1) {
