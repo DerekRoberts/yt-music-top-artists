@@ -16,17 +16,17 @@ Visit the live application at: [https://derekroberts.github.io/yt-music-top-arti
 
 ## 🏗️ Architecture
 
-This application uses a **scheduled data fetching** approach:
+This application uses a **stateless data generation** approach:
 
 ```
 GitHub Actions (every 6 hours)
   ↓ Runs Node.js script
-  ↓ Fetches YouTube Music data
-  ↓ Generates artists.json
-  ↓ Commits to repository
+  ↓ Generates fresh artists.json
+  ↓ Builds React app with fresh data
+  ↓ Deploys to GitHub Pages
   
 React Frontend (GitHub Pages)
-  ↓ Fetches static artists.json
+  ↓ Serves fresh artists.json
   ↓ Displays your top artists
 ```
 
