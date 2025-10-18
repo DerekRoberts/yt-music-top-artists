@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { fetchArtistsData, formatLastUpdated, getArtistsStats } from './services/artistData'
 import ArtistGrid from './components/ArtistGrid'
 import Header from './components/Header'
@@ -8,9 +8,8 @@ function App() {
   const [ artistsData, setArtistsData ] = useState(null)
   const [ loading, setLoading ] = useState(true)
   const [ error, setError ] = useState(null)
-  const [ lastRefresh, setLastRefresh ] = useState(null)
 
-  const fetchArtists = async () => {
+  const fetchArtists = useCallback(async () => {
     setLoading(true)
     setError(null)
 
@@ -18,7 +17,6 @@ function App() {
       console.log('🔄 Fetching artists data...')
       const data = await fetchArtistsData()
       setArtistsData(data)
-      setLastRefresh(new Date())
 
       if (data.error) {
         setError(data.error)
@@ -29,11 +27,11 @@ function App() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
   useEffect(() => {
     fetchArtists()
-  }, [])
+  }, [fetchArtists])
 
   const stats = artistsData ? getArtistsStats(artistsData.artists) : null
 

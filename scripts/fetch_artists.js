@@ -128,7 +128,7 @@ if (require.main === module) {
       process.exit(0);
     })
     .catch((error) => {
-      console.error('💥 Failed to fetch artists data:', error.message);
+      console.error('💥 Failed to fetch artists data:', error);
       process.exit(1);
     });
 }

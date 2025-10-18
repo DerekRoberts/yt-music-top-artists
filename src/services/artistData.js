@@ -13,7 +13,8 @@ export async function fetchArtistsData() {
     console.log('📡 Fetching artists data from static JSON...');
 
     // Fetch from the public directory (same domain as the app)
-    const response = await fetch('/artists.json');
+    // Add cache-busting to ensure fresh data
+    const response = await fetch('/artists.json', { cache: 'no-cache' });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch artists data: ${response.status} ${response.statusText}`);
@@ -48,13 +49,23 @@ export async function fetchArtistsData() {
 export function formatLastUpdated(isoString) {
   try {
     const date = new Date(isoString);
+    
+    // Check for invalid date
+    if (isNaN(date.getTime())) {
+      console.error('Invalid date string provided:', isoString);
+      return 'Unknown';
+    }
+
     const now = new Date();
     const diffMs = now - date;
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+    const diffHours = Math.floor(diffMinutes / 60);
     const diffDays = Math.floor(diffHours / 24);
-
-    if (diffHours < 1) {
+    
+    if (diffMinutes < 1) {
       return 'Just now';
+    } else if (diffHours < 1) {
+      return `${diffMinutes} minute${diffMinutes === 1 ? '' : 's'} ago`;
     } else if (diffHours < 24) {
       return `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`;
     } else if (diffDays < 7) {
