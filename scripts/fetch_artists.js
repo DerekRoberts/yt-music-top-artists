@@ -55,12 +55,14 @@ async function fetchYouTubeMusicData() {
 
     console.log(`✅ Found ${mockArtists.length} artists`);
 
-    // Add metadata
+    // Add metadata with current timestamp
     const data = {
       artists: mockArtists,
       lastUpdated: new Date().toISOString(),
       totalArtists: mockArtists.length,
-      source: "YouTube Music API"
+      source: "YouTube Music API",
+      fetchTimestamp: Date.now(),
+      buildId: process.env.GITHUB_RUN_ID || 'local'
     };
 
     // Ensure public directory exists
